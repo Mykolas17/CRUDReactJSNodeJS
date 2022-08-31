@@ -6,6 +6,13 @@ const isLoggedIn = require('../middleware/authorization');
 
 const router = express.Router();
 
+const guestAddSchema = joi.object({
+  eventId: joi.string().required(),
+  name: joi.string().required(),
+  email: joi.string(),
+  date: joi.string(),
+});
+
 const guestSchema = joi.object({
   name: joi.string().required(),
   email: joi.string(),
@@ -44,7 +51,7 @@ router.post('/', isLoggedIn, async (req, res) => {
   try {
     const { eventId, name, email, date } = req.body;
     try {
-      await guestSchema.validateAsync({
+      await guestAddSchema.validateAsync({
         eventId,
         name,
         email,
